@@ -18,7 +18,7 @@ analysis_seed = 384
 
 for split_seed in seed_list:
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=split_seed, stratify=y)
-    model = RandomForestClassifier(n_estimators=100, random_state=40)
+    model = RandomForestClassifier(n_estimators=100, random_state=40, class_weight='balanced')
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     accuracy = accuracy_score(y_test, y_pred)
