@@ -34,7 +34,7 @@
 - `RandomForestClassifier(random_state=40)` で毎回学習・評価
 - 品種比率を保つため `stratify=y` を使用
 
-前回との差分: `[3a3b100..aef240e](../../compare/3a3b100..aef240e)`
+前回との差分: [3a3b100..aef240e](../../compare/3a3b100..aef240e)
 
 ### 3.3 結果
 **単発では1.0000だったが、実際には分割次第で accuracy が 0.9167 まで低下することが分かった。**
@@ -67,7 +67,7 @@
 - `split_seed==384` の場合のみ `confusion_matrix` と `classification_report` を表示
 - 条件は `test_size=0.2, stratify=y, model_seed=40, runs=100` で固定
 
-前回との差分: `[aef240e..da4dd24](../../compare/aef240e..da4dd24)`
+前回との差分: [aef240e..da4dd24](../../compare/aef240e..da4dd24)
 
 ### 4.3 結果
 **誤分類は主に class0 と class1 の間で発生し、特に class1 の recall 低下が最悪ケースの主因だった。**
@@ -118,7 +118,7 @@
   - `stratify=y`
 - `seed=384` の詳細分析ロジックは維持
 
-前回との差分: `[da4dd24..5960dfd](../../compare/da4dd24..5960dfd)`
+前回との差分: [da4dd24..5960dfd](../../compare/da4dd24..5960dfd)
 
 ### 5.3 結果
 **軽量調整だけで、最悪ケース・平均精度・ばらつきのすべてが改善した。**
