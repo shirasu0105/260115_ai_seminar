@@ -1,26 +1,34 @@
-import pandas as pd
+﻿import pandas as pd
+import statistics
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import accuracy_score
 
-#csvファイル読み込み
+# csvファイル読み込み
 df = pd.read_csv(r'C:\Work\Python\260115_ai_seminar\project\02_wine\wine_dataset.csv')
 
-#特徴量とラベルを分解
+# 特徴量とラベルを分離
 X = df.drop(columns=['target'])
 y = df['target']
 
-# データを訓練用とテスト用に分割
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=40)
+# データ分割の乱数のみ可変
+seed_list = [7 + 13 * i for i in range(100)]
+results = []
 
-# モデル生成
-model = RandomForestClassifier(n_estimators=100, random_state=40)
-model.fit(X_train, y_train)
+for split_seed in seed_list:
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=split_seed, stratify=y)
+    model = RandomForestClassifier(n_estimators=100, random_state=40)
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    results.append((split_seed, accuracy))
 
-# テストデータ予測作成
-y_pred = model.predict(X_test)
+accuracies = [accuracy for _, accuracy in results]
+best_seed, best_accuracy = max(results, key=lambda x: x[1])
+worst_seed, worst_accuracy = min(results, key=lambda x: x[1])
 
-# 評価結果表示
-print("Accuracy Score:", accuracy_score(y_test,y_pred))
-print("\nClassification report:")
-print(classification_report(y_test, y_pred))
+print('runs:', len(seed_list))
+print('mean:', f'{statistics.mean(accuracies):.4f}')
+print('std:', f'{statistics.pstdev(accuracies):.4f}')
+print('min:', f'{worst_accuracy:.4f}', f'(seed={worst_seed})')
+print('max:', f'{best_accuracy:.4f}', f'(seed={best_seed})')
